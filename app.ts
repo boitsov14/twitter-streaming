@@ -125,7 +125,7 @@ const check_count = (username: string) => {
 
 const backup = async (id: string) => {
     const backup_response = await axios.post(process.env.BACKUP_URL + '?id=' + id)
-    console.log(backup_response.data)
+    console.log('backup:', backup_response.data)
 }
 
 streaming()
