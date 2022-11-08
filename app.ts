@@ -60,7 +60,6 @@ const streaming = async () => {
 const process_tweet = async (data: TweetV2) => {
     // ツイート内容が"@sequent_bot"から始まっているかチェック
     if (!data.text.startsWith('@sequent_bot')) return
-    console.log(data)
     // tweet idからusernameを取得
     const tweet_info = await client.v2.singleTweet(data.id, {
         expansions: 'author_id',
@@ -71,15 +70,21 @@ const process_tweet = async (data: TweetV2) => {
     // 日付のアップデートとcount_infoの初期化
     update_date()
     // 制限回数を超えていないかチェック
-    if (!check_count(username)) return
+    if (!check_count(username)) {
+        console.log('Too many request')
+        return
+    }
     console.log('after:', get_info())
     // Proverに送信
-    const response = await axios.post(
-        process.env.URL + '/twitter', {
+    const tweet = {
         'id': data.id,
         'text': data.text,
         'username': username
-    }, {
+    }
+    console.log(tweet)
+    const response = await axios.post(
+        process.env.URL + '/twitter',
+        tweet, {
         headers: {
             'Authorization': 'Bearer ' + process.env.PASSWORD!
         }
