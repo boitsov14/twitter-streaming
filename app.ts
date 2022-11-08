@@ -77,7 +77,7 @@ const process_tweet = async (data: TweetV2) => {
     const response = await axios.post(
         process.env.URL + '/twitter', {
         'id': data.id,
-        'sequent': data.text,
+        'text': data.text,
         'username': username
     }, {
         headers: {
