@@ -72,6 +72,7 @@ const process_tweet = async (data: TweetV2) => {
     // 制限回数を超えていないかチェック
     if (!check_count(username)) {
         console.log('Too many request')
+        backup(data.id)
         return
     }
     console.log('after:', get_info())
@@ -91,9 +92,7 @@ const process_tweet = async (data: TweetV2) => {
     }
     )
     console.log(response.data)
-    // バックアップ
-    const backup_response = await axios.post(process.env.BACKUP_URL + '?id=' + data.id)
-    console.log(backup_response.data)
+    backup(data.id)
 }
 
 const get_info = () => {
@@ -122,6 +121,11 @@ const check_count = (username: string) => {
     } else {
         return false
     }
+}
+
+const backup = async (id: string) => {
+    const backup_response = await axios.post(process.env.BACKUP_URL + '?id=' + id)
+    console.log(backup_response.data)
 }
 
 streaming()
