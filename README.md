@@ -23,3 +23,14 @@ client.v2.updateStreamRules({
     console.log(rules)
 })()
 ```
+
+## fly.ioへのデプロイ
+
+```
+# fly.ioへログイン
+flyctl auth login
+# appのlaunch
+flyctl launch
+# appのdeploy
+flyctl deploy
+```
